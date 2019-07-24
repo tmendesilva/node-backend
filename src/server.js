@@ -5,8 +5,6 @@ const cors = require('cors');
 
 const app = express();
 
-app.use(cors());
-
 const server = require('http').createServer(app);
 const io = require('socket.io').listen(server);
 io.origins("*:*");
@@ -21,6 +19,7 @@ mongoose.connect('mongodb+srv://react:react@cluster0-jl4i1.mongodb.net/react?ret
     useNewUrlParser: true
 });
 
+app.use(cors());
 app.use((req, res, next) => {
     req.io = io;
     return next();
