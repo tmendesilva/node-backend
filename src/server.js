@@ -9,7 +9,7 @@ app.use(cors());
 
 const server = require('http').createServer(app);
 const io = require('socket.io').listen(server);
-io.origins('*:*');
+io.set('origins', 'https://sagat-react-frontend.herokuapp.com:80');
 
 io.on('connection', socket => {
     socket.on('connectRoom', box => {
