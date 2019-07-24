@@ -9,6 +9,7 @@ app.use(cors());
 
 const server = require('http').createServer(app);
 const io = require('socket.io').listen(server);
+io.origins('*:*');
 
 io.on('connection', socket => {
     socket.on('connectRoom', box => {
