@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
+const cors = require('cors');
 const socketIO = require('socket.io');
 
 const PORT = process.env.PORT || 3333;
@@ -8,7 +9,10 @@ const INDEX = path.join(__dirname, 'index.html');
 const app = express();
 const server = app.use((req, res) => res.sendFile(INDEX) ).listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
+app.use(cors());
+
 const io = socketIO(server);
+io.origins("*:*");
 io.on('connection', (socket) => {
   socket.on('connectRoom', box => {
       socket.join(box);
