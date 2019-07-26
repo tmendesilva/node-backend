@@ -4,12 +4,16 @@ const path = require('path');
 const cors = require('cors');
 const socketIO = require('socket.io');
 
-const PORT = process.env.PORT || 3333;
-const INDEX = path.join(__dirname, 'index.html');
 const app = express();
-const server = app.use((req, res) => res.sendFile(INDEX) ).listen(PORT, () => console.log(`Listening on ${ PORT }`));
+const server = require('http').Server(app);
 
 app.use(cors());
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    req.io = io;
+    return next();
+});
 
 const io = socketIO(server);
 io.origins("*:*");
@@ -27,3 +31,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/files', express.static(path.resolve(__dirname, '..', 'tmp')));
 app.use(require('./routes'));
+
+const PORT = process.env.PORT || 3333;
+server.listen(PORT, () => {
+    console.log(`Server listening on port ${PORT} (:`)
+})
