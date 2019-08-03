@@ -10,7 +10,7 @@ const FileController = require('./controllers/FileController');
 
 
 // GET/POST/PUT/DELETE
-
+routes.get("/boxes/list", BoxController.list);
 routes.get("/boxes/:id", BoxController.show);
 routes.post("/boxes", BoxController.store);
 routes.post(
